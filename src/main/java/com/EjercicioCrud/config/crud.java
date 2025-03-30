@@ -114,4 +114,28 @@ public class crud {
             System.out.println("Error al buscar el producto");
         }
     }
+
+    public void ListarProductosStock(int stock){
+        String query ="select * from producto where stock < ?";
+
+        try {
+            Connection cn = Conexion.getConnection();
+            PreparedStatement ps = cn.prepareStatement(query);
+            ps.setInt(1,stock);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String nombreProducto = rs.getString("nombre");
+                double precio = rs.getDouble("precio");
+                String fechaVencimiento = rs.getString("fechaVencimiento");
+                int stockProducto = rs.getInt("stock");
+
+                System.out.println("ID:"+id+" "+"Nombre:"+nombreProducto+" "+"Precio:"+precio+" "+"Fecha de vencimiento:"+fechaVencimiento+" "+"Stock:"+stockProducto);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            System.out.println("Error al realizar la busqueda");
+        }
+
+    }
 }
